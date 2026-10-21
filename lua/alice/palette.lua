@@ -5,14 +5,17 @@
 -- lua/alice/groups.lua 只引用角色名，所以新增主题 = 在这里加一张色板，
 -- 修改一条规则 = 三套主题同时生效。
 --
--- 角色名与 magic-doll 家族 token（magic-doll-vibe）的对应：
---   bg→bg1        panel→bg2      fg→txt1        on_accent→txt2
---   accent→acc1   steel→acc2     purple→acc3
---   green→str     orange→num     muted→comm     warn→warn     red→err
---   faint→gray    pale_yellow→yellow            magenta→magenta   cyan→cyan
---   pink_bg→red（终端红，作用于 insert 模式色块）
--- 以下角色是家族色相压深/提亮派生出的 Neovim 专用色，家族 token 里没有：
---   search_fg / search_bg / diff_add_bg / diff_change_bg / diff_delete_bg / matchparen_bg
+-- 角色按用途命名，写新色板时照此填：
+--   bg / panel / faint       背景 / 面板、浮窗、光标行 / 非文本字符（空白、缩进线、边界）
+--   fg / on_accent / muted   正文 / 彩色块上的字 / 注释、行号
+--   accent / steel / purple  类型与主强调 / 标识符、函数、选区底色 / 关键字、常量
+--   green / orange / red     字符串、info / 数字、搜索匹配 / 错误、diff 删除
+--   warn                     警告
+--   search_fg / search_bg    搜索与 flash 命中
+--   diff_add_bg / diff_change_bg / diff_delete_bg   diff 增 / 改 / 删底色
+--   matchparen_bg            括号匹配底色
+--   magenta / cyan / pale_yellow / pink_bg  杂项强调：图标、符号链接、滚动条、模式色块
+-- terminal 是 ANSI 16 色，随主题写入 g:terminal_color_*。
 
 return {
   sunny = {

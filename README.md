@@ -1,6 +1,6 @@
 # alice.nvim
 
-Alice 系列的 Neovim 配色：一套浅色 + 两套深色，共用同一份高亮规格与同一套色板 token。
+Alice 系列的 Neovim 配色：一套浅色 + 两套深色，共用同一份高亮规格与同一套语义色板。
 
 ![screenshot](./assets/screenshot.png)
 
@@ -10,7 +10,8 @@ Alice 系列的 Neovim 配色：一套浅色 + 两套深色，共用同一份高
 | **alice-rainy** | `#1f252a` | 深色 · 冷灰蓝 · 低饱和 |
 | **alice-nightly** | `#090e12` | 深色 · 近纯黑 · 高对比 |
 
-这是 [magic-doll-vibe](https://github.com/reiAkwa/magic-doll-vibe) 家族的 Neovim 实现：与 Helix / WezTerm / Zed / VS Code 等端口共用同一套调色板与视觉语言（`acc1 = #56a0d1`、`acc2 = #5b7f92` 跨平台一致）。
+三套主题只差一张色板：同一个 `accent = #56a0d1`、`steel = #5b7f92` 贯穿浅色与深色，
+所以切换主题时语法语义的颜色关系保持不变。
 
 ## 特性
 
@@ -98,20 +99,20 @@ alice.nvim/
 
 新增一套配色只要在 `palette.lua` 里加一张色板，再在 `colors/` 放一行入口。
 
-## 角色 ↔ 家族 token
+## 色板角色
 
-`palette.lua` 中的角色名与 [magic-doll-vibe](https://github.com/reiAkwa/magic-doll-vibe) 的 token 一一对应，方便和其它平台对表：
+`palette.lua` 按用途给颜色命名，`groups.lua` 只引用角色名：
 
-| 角色 | token | 角色 | token |
-|---|---|---|---|
-| `bg` | `bg1` | `accent` | `acc1` |
-| `panel` | `bg2` | `steel` | `acc2` |
-| `fg` | `txt1` | `purple` | `acc3` |
-| `on_accent` | `txt2` | `green` / `orange` | `str` / `num` |
-| `muted` / `warn` / `red` | `comm` / `warn` / `err` | `faint` | `gray` |
-| `pale_yellow` / `magenta` / `cyan` | `yellow` / `magenta` / `cyan` | `pink_bg` | `red` |
-
-`search_fg`、`search_bg`、`diff_*_bg`、`matchparen_bg` 是家族色相压深/提亮派生出的 Neovim 专用色，家族 token 里没有对应项。
+| 角色 | 用途 |
+|---|---|
+| `bg` / `panel` / `faint` | 编辑器背景 / 面板、浮窗、光标行 / 非文本字符（空白、缩进线、边界） |
+| `fg` / `on_accent` / `muted` | 正文 / 彩色块上的字 / 注释、行号 |
+| `accent` / `steel` / `purple` | 类型与主强调 / 标识符、函数、选区底色 / 关键字、常量 |
+| `green` / `orange` / `red` / `warn` | 字符串与 info / 数字与搜索匹配 / 错误与 diff 删除 / 警告 |
+| `search_fg` / `search_bg` | 搜索与 flash 命中（浅色主题里 `search_fg` 是 `on_accent` 的别名） |
+| `diff_add_bg` / `diff_change_bg` / `diff_delete_bg` | diff 增 / 改 / 删底色 |
+| `matchparen_bg` | 括号匹配底色 |
+| `magenta` / `cyan` / `pale_yellow` / `pink_bg` | 杂项强调色：图标、符号链接、滚动条、模式色块 |
 
 ## 许可
 

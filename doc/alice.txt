@@ -69,7 +69,8 @@ require('alice').names
 lua/alice/palette.lua
     三张语义色板。每个角色写作 `{ '#RRGGBB', cterm256 }`；`cterm` 可省略
     （按最接近的 xterm-256 换算），也可写成另一个角色名做别名。
-    角色名与 magic-doll 家族 token 一一对应（bg→bg1、fg→txt1、accent→acc1…）。
+    角色按用途命名（bg / panel / fg / on_accent / accent / steel / muted /
+    green / orange / red / warn / diff_*_bg …），完整说明见文件顶部注释。
 
 lua/alice/groups.lua
     唯一的组定义：411 条 `{ 组名, 前景角色, 背景角色, 属性 }`，
