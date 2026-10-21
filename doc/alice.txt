@@ -1,0 +1,101 @@
+*alice.txt*  Alice for Neovim                                  *alice.nvim* *alice*
+
+Alice 系列配色：一套浅色（sunny）+ 两套深色（rainy / nightly），
+共用同一份高亮规格与同一套语义色板。
+
+CONTENTS                                                *alice-contents*
+
+    1. 要求 ......................................... |alice-requirements|
+    2. 安装 ......................................... |alice-install|
+    3. 使用 ......................................... |alice-usage|
+    4. API .......................................... |alice-api|
+    5. 结构 ......................................... |alice-structure|
+    6. 自定义 ....................................... |alice-customize|
+
+==============================================================================
+1. 要求                                                *alice-requirements*
+
+Neovim >= 0.10（依赖原生 `colors/*.lua` 支持）。
+在 Neovim 0.12.5 上验证。无第三方依赖，无需构建。
+
+==============================================================================
+2. 安装                                                *alice-install*
+
+vim.pack（Neovim 0.12+）：
+>
+    vim.pack.add({ { src = 'https://github.com/reiAkwa/alice.nvim' } })
+    vim.cmd.colorscheme('alice-sunny')
+<
+lazy.nvim：
+>
+    {
+      'reiAkwa/alice.nvim',
+      lazy = false,
+      priority = 1000,
+      config = function() vim.cmd.colorscheme('alice-sunny') end,
+    }
+<
+也可以直接放进任意 |runtimepath| 目录。
+
+==============================================================================
+3. 使用                                                *alice-usage*
+
+                                                *alice-sunny* *alice-rainy*
+                                                *alice-nightly*
+>
+    :colorscheme alice-sunny
+    :colorscheme alice-rainy
+    :colorscheme alice-nightly
+<
+三套主题会同时设置 `g:colors_name`、'background' 与 `g:terminal_color_0..15`。
+treesitter 的 `@` 组通过 ColorScheme autocmd + `defer_fn(0)` 施加，
+因此 `:colorscheme` 切换后 rainbow / 语义着色会立即跟上。
+
+==============================================================================
+4. API                                                    *alice-api*
+
+                                                        *alice.load()*
+require('alice').load({name})
+    以编程方式应用主题，`{name}` 可写短名（'rainy'）或全名（'alice-rainy'）。
+    未知主题会报错并列出可用主题。
+
+                                                        *alice.names*
+require('alice').names
+    可用主题全名列表，按字母序，适合喂给主题切换器或补全。
+
+==============================================================================
+5. 结构                                              *alice-structure*
+
+lua/alice/palette.lua
+    三张语义色板。每个角色写作 `{ '#RRGGBB', cterm256 }`；`cterm` 可省略
+    （按最接近的 xterm-256 换算），也可写成另一个角色名做别名。
+    角色名与 magic-doll 家族 token 一一对应（bg→bg1、fg→txt1、accent→acc1…）。
+
+lua/alice/groups.lua
+    唯一的组定义：411 条 `{ 组名, 前景角色, 背景角色, 属性 }`，
+    外加 13 条传统 |:hi-link| 与 100 条 treesitter 捕获组链接。
+    改一条规则 = 三套主题同时生效。
+
+lua/alice/init.lua
+    加载器：`hi clear` → 'background' → |nvim_set_hl()| → 链接 →
+    treesitter 链接 → `g:terminal_color_*`。
+
+colors/alice-*.lua
+    各一行：`require('alice').load('sunny')`。
+
+==============================================================================
+6. 自定义                                            *alice-customize*
+
+覆盖单个高亮组（不要改插件源码，否则更新会丢）：
+>
+    vim.api.nvim_create_autocmd('ColorScheme', {
+      pattern = { 'alice-sunny', 'alice-rainy', 'alice-nightly' },
+      callback = function()
+        vim.api.nvim_set_hl(0, 'Normal', { bg = 'NONE' })
+        vim.api.nvim_set_hl(0, 'Comment', { fg = '#8f9396', italic = true })
+      end,
+    })
+<
+新增一整套配色：在 `palette.lua` 里加一张色板，在 `colors/` 下加一行入口。
+
+ vim:tw=78:ts=8:noet:ft=help:norl:

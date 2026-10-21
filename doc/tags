@@ -1,0 +1,15 @@
+alice	alice.txt	/*alice*
+alice-api	alice.txt	/*alice-api*
+alice-contents	alice.txt	/*alice-contents*
+alice-customize	alice.txt	/*alice-customize*
+alice-install	alice.txt	/*alice-install*
+alice-nightly	alice.txt	/*alice-nightly*
+alice-rainy	alice.txt	/*alice-rainy*
+alice-requirements	alice.txt	/*alice-requirements*
+alice-structure	alice.txt	/*alice-structure*
+alice-sunny	alice.txt	/*alice-sunny*
+alice-usage	alice.txt	/*alice-usage*
+alice.load()	alice.txt	/*alice.load()*
+alice.names	alice.txt	/*alice.names*
+alice.nvim	alice.txt	/*alice.nvim*
+alice.txt	alice.txt	/*alice.txt*
